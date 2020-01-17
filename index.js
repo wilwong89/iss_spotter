@@ -1,11 +1,27 @@
-const { fetchMyIP } = require('./iss');
+const { fetchMyIP, fetchCoordsByIP, fetchISSFlyOverTimes } = require('./iss');
 
-// fetchMyIP((error, ip) => {
-//   if (error) {
-//     console.log("It didn't work!" , error);
-//     return;
-//   }
+fetchMyIP(function(error, ip) {
+  if (error) {
+    console.log("It didn't work!" , error);
+    return;
+  }
+  fetchCoordsByIP(ip, (error, latLngObj)=>{
+    if (error) {
+      console.log(error);
+    } else {
+      fetchISSFlyOverTimes(latLngObj, (error, data)=>{
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(data);
+        }
+      });
+    }
+  });
+});
 
-//   console.log('It worked! Returned IP:' , ip);
-// });
 
+
+// fetchCoordsByIP("216.232.132.90", (error, infoObj) => {
+//   // console.log(infoObj)
+// })
